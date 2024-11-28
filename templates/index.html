@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .upload-container {
+            background-color: #f8f9fa;
+            border: 2px dashed #6c757d;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .upload-container h4 {
+            color: #495057;
+        }
+        .recent-files, .folders-container {
+            margin-top: 20px;
+        }
+        .folder {
+            display: inline-block;
+            margin: 10px;
+            padding: 20px;
+            text-align: center;
+            background-color: #e9ecef;
+            border-radius: 8px;
+        }
+        .folder a {
+            text-decoration: none;
+            color: #343a40;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <header class="d-flex justify-content-between align-items-center">
+            <h1>Global Autotech</h1>
+            <nav>
+                <a href="#" class="mx-2">Dashboard</a>
+                <a href="#" class="mx-2">Documents</a>
+                <a href="#" class="mx-2">Tasks</a>
+            </nav>
+        </header>
+
+        <!-- Upload Section -->
+        <div class="upload-container mt-4">
+            <h4>Upload your Files Here</h4>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" class="form-control mb-3">
+                <input type="text" name="company" placeholder="Company Name" class="form-control mb-2">
+                <input type="text" name="year" placeholder="Year" class="form-control mb-2">
+                <input type="text" name="invoice_no" placeholder="Invoice Number" class="form-control mb-2">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+
+        <!-- Recent Files -->
+        <div class="recent-files mt-4">
+            <h4>Recent Files:</h4>
+            <ul class="list-group">
+                {% for invoice in invoices %}
+                <li class="list-group-item">
+                    <strong>{{ invoice.company }}:</strong> Payment for invoice #{{ invoice.invoice_no }}
+                    <a href="{{ invoice.file_path }}" class="btn btn-link float-end">View</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Folders Section -->
+        <div class="folders-container mt-4">
+            <h4>Company Folders:</h4>
+            {% for company in companies %}
+            <div class="folder">
+                <a href="#">{{ company }}</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
